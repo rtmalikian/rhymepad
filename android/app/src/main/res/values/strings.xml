@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RhymePad</string>
+    <string name="title_activity_main">RhymePad</string>
+    <string name="package_name">com.rtmalikian.rhymepad</string>
+    <string name="custom_url_scheme">com.rtmalikian.rhymepad</string>
+</resources>

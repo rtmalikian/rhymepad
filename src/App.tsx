@@ -47,7 +47,7 @@ export function App() {
   const [activeDocumentId, setActiveDocumentId] = useState(() => loadActiveDocumentId(loadDocuments()));
   const [selectedTokenId, setSelectedTokenId] = useState<string | null>(null);
   const [activeCommand, setActiveCommand] = useState("end");
-  const [persistenceStatus, setPersistenceStatus] = useState<"loading" | "api" | "local">("loading");
+  const [persistenceStatus, setPersistenceStatus] = useState<"loading" | "api" | "sqlite" | "local">("loading");
   const [hasHydrated, setHasHydrated] = useState(false);
   const activeDocument = documents.find((document) => document.id === activeDocumentId) ?? documents[0];
   const analysis = useMemo(() => analyzeDocument(activeDocument?.text ?? ""), [activeDocument?.text]);
@@ -469,7 +469,7 @@ function StatusBar({
   persistenceStatus
 }: {
   analysis: ReturnType<typeof analyzeDocument>;
-  persistenceStatus: "loading" | "api" | "local";
+  persistenceStatus: "loading" | "api" | "sqlite" | "local";
 }) {
   return (
     <footer className="status-bar">
@@ -480,6 +480,8 @@ function StatusBar({
       <span>
         {persistenceStatus === "api"
           ? "Saved to SQLite"
+          : persistenceStatus === "sqlite"
+            ? "Saved to Android SQLite"
           : persistenceStatus === "local"
             ? "Saved in browser"
             : "Loading saved rhymes"}

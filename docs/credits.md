@@ -16,5 +16,7 @@ It uses and credits the following open-source projects and data sources:
 - Playwright for browser testing and README screenshots.
 - Vitest for unit tests.
 - Docker and nginx for containerized production serving.
+- Capacitor for Android packaging.
+- `@capacitor-community/sqlite` for native Android SQLite persistence.
 
 This project is not currently a fork of another GitHub repository.

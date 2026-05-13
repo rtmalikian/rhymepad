@@ -2,7 +2,10 @@ node_modules/
 dist/
 test-results/
 playwright-report/
-data/
+/data/
 .DS_Store
 npm-debug.log*
 backups/
+artifacts/
+.android-sdk/
+.gradle-cache/

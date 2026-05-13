@@ -34,3 +34,23 @@
 | 2026-05-13 | project-edit-backups.md | backups/20260513-cmudict-sqlite/project-edit-backups.before-listener-retain.bak | Logged server lifecycle hardening. |
 | 2026-05-13 | README.md | backups/20260513-github-merge/README.conflict.bak | Resolved GitHub remote README merge conflict by keeping the full local README content. |
 | 2026-05-13 | project-edit-backups.md | backups/20260513-github-merge/project-edit-backups.bak | Logged GitHub merge conflict resolution. |
+| 2026-05-13 | package.json | backups/20260513-android-apk/package.json.bak | Added Capacitor, Android, SQLite plugin dependencies, and Android build scripts. |
+| 2026-05-13 | package-lock.json | backups/20260513-android-apk/package-lock.json.bak | Updated dependency lockfile for Android packaging dependencies. |
+| 2026-05-13 | src/lib/storage.ts | backups/20260513-android-apk/storage.ts.bak | Added native Android SQLite load/save path with web and Docker fallbacks. |
+| 2026-05-13 | .gitignore | backups/20260513-android-apk/gitignore.bak | Ignored generated Android SDK and APK artifact outputs. |
+| 2026-05-13 | README.md | backups/20260513-android-apk/README.md.bak | Documented Android APK packaging and native SQLite behavior. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.md.bak | Logged Android APK packaging edits. |
+| 2026-05-13 | package.json | backups/20260513-android-apk/package.before-dedupe.json.bak | Removed duplicate Capacitor dependency entries after npm install and patching. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.before-dedupe.md.bak | Logged Capacitor dependency cleanup. |
+| 2026-05-13 | android/local.properties | backups/20260513-android-apk/android.local.properties.bak | Pointed the generated Android project at the project-local SDK path for local APK builds. |
+| 2026-05-13 | .gitignore | backups/20260513-android-apk/gitignore.before-gradle-cache.bak | Ignored the project-local Gradle cache used during APK builds. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.before-gradle-cache.md.bak | Logged Android local build path adjustments. |
+| 2026-05-13 | .gitignore | backups/20260513-android-apk/gitignore.before-data-anchor.bak | Anchored `/data/` ignore rule so source folders named data are not ignored. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.before-data-anchor.md.bak | Logged `.gitignore` source-data safeguard. |
+| 2026-05-13 | package.json | backups/20260513-android-apk/package.before-build-script.json.bak | Replaced the raw Android debug command with a reusable build script. |
+| 2026-05-13 | README.md | backups/20260513-android-apk/README.before-build-script.md.bak | Documented the copied APK artifact path and local SDK/JDK expectations. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.before-build-script.md.bak | Logged Android build-script additions. |
+| 2026-05-13 | scripts/build-android-debug.sh | backups/20260513-android-apk/build-android-debug.before-javahome.sh.bak | Made the APK build script prefer Homebrew JDK 21 even if another JAVA_HOME is set. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.before-javahome.md.bak | Logged APK build script JDK selection fix. |
+| 2026-05-13 | src/data/pronunciations.ts | Not applicable | Removed stale untracked starter dictionary after switching to the CMUdict package. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.before-stale-dictionary-removal.md.bak | Logged stale starter dictionary cleanup. |

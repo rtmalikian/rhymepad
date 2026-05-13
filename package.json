@@ -11,12 +11,17 @@
     "start": "node server/index.mjs",
     "build": "tsc && vite build",
     "preview": "vite preview --host 0.0.0.0",
+    "cap:sync": "npm run build && cap sync",
+    "android:debug": "bash scripts/build-android-debug.sh",
     "test": "vitest run",
     "test:watch": "vitest",
     "screenshots": "playwright test tests/readme-screenshots.spec.ts",
     "e2e": "playwright test"
   },
   "dependencies": {
+    "@capacitor-community/sqlite": "^8.1.0",
+    "@capacitor/android": "^8.3.4",
+    "@capacitor/core": "^8.3.4",
     "@vitejs/plugin-react": "^5.0.0",
     "cmu-pronouncing-dictionary": "^3.0.0",
     "express": "^5.2.1",
@@ -29,6 +34,7 @@
     "vite": "^7.0.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.3.4",
     "@playwright/test": "^1.54.0",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.0.0",

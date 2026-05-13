@@ -18,6 +18,7 @@ Write lines, inspect cadence, find rhymes, and see internal rhyme schemes highli
 - Menu bar with rhyming prompts: `Find End Rhymes`, `Find Internal Rhymes`, `Suggest Multis`, `Tighten Syllables`, `Continue Scheme`, and `Reset Highlights`.
 - Local browser persistence with no login, backend, or API key required.
 - SQLite persistence when running through the included Node/Express server or Docker container.
+- Native Android SQLite persistence when packaged as an APK.
 - Dockerized production build.
 - Playwright screenshot generation for GitHub README images.
 
@@ -77,6 +78,25 @@ http://localhost:8080
 
 Written rhymes are stored in a SQLite database at `/data/rhymepad.sqlite` inside the container. Docker Compose mounts that path as the named volume `rhymepad-data`, so your documents survive container restarts and rebuilds. The data is intentionally not baked into the Docker image.
 
+## Android APK
+
+RhymePad can be packaged as a Capacitor Android app:
+
+```bash
+npm run android:debug
+```
+
+The debug APK is produced at:
+
+```text
+android/app/build/outputs/apk/debug/app-debug.apk
+artifacts/rhymepad-debug.apk
+```
+
+When running as an Android app, documents are saved in the app's native SQLite database. The Android app works offline and does not require the Docker server.
+
+This project expects Android command-line tools under `.android-sdk/` for local CLI builds. If JDK 21 is installed with Homebrew at `/opt/homebrew/opt/openjdk@21`, the build script will use it automatically.
+
 ## Test Verse Used For Screenshots
 
 ```text
@@ -104,6 +124,8 @@ Built with and inspired by open-source tools/data:
 - [Playwright](https://github.com/microsoft/playwright)
 - [Vitest](https://github.com/vitest-dev/vitest)
 - [Docker](https://github.com/docker)
+- [Capacitor](https://github.com/ionic-team/capacitor)
+- [`@capacitor-community/sqlite`](https://github.com/capacitor-community/sqlite)
 
 Additional credits are listed in [docs/credits.md](docs/credits.md).
 

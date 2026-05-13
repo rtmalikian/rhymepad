@@ -1,0 +1,10 @@
+services:
+  rhymepad:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - rhymepad-data:/data
+
+volumes:
+  rhymepad-data:

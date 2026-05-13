@@ -32,3 +32,5 @@
 | 2026-05-13 | project-edit-backups.md | backups/20260513-cmudict-sqlite/project-edit-backups.md.bak | Logged the CMUdict and SQLite persistence implementation. |
 | 2026-05-13 | server/index.mjs | backups/20260513-cmudict-sqlite/server.index.before-listener-retain.mjs.bak | Retained the HTTP server reference and persisted SQLite on shutdown. |
 | 2026-05-13 | project-edit-backups.md | backups/20260513-cmudict-sqlite/project-edit-backups.before-listener-retain.bak | Logged server lifecycle hardening. |
+| 2026-05-13 | README.md | backups/20260513-github-merge/README.conflict.bak | Resolved GitHub remote README merge conflict by keeping the full local README content. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-github-merge/project-edit-backups.bak | Logged GitHub merge conflict resolution. |

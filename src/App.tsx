@@ -10,7 +10,8 @@ import {
   RefreshCcw,
   Search,
   Sparkles,
-  Wand2
+  Wand2,
+  X
 } from "lucide-react";
 import { analyzeDocument } from "./lib/analysis/analyze";
 import { getRhymeSuggestions } from "./lib/analysis/phonetics";
@@ -76,6 +77,10 @@ export function App() {
     persistState(documents, activeDocumentId).then((source) => setPersistenceStatus(source));
   }, [activeDocumentId, documents, hasHydrated]);
 
+  useEffect(() => {
+    if (selectedTokenId && !selectedToken) setSelectedTokenId(null);
+  }, [selectedToken, selectedTokenId]);
+
   function updateText(text: string) {
     setDocuments((current) =>
       current.map((document) =>
@@ -106,6 +111,7 @@ export function App() {
       lines[selectedToken.lineIndex] = `${line.slice(0, selectedToken.end)} ${word}${line.slice(selectedToken.end)}`;
     }
     updateText(lines.join("\n"));
+    setSelectedTokenId(null);
   }
 
   function runPromptCommand(id: string) {
@@ -165,6 +171,7 @@ export function App() {
           selectedTokenId={selectedToken?.id}
           onTextChange={updateText}
           onTokenSelect={setSelectedTokenId}
+          onDictionaryClose={() => setSelectedTokenId(null)}
           selectedToken={selectedToken}
           suggestions={suggestions}
           onApplySuggestion={applySuggestion}
@@ -246,6 +253,7 @@ function EditorSurface({
   suggestions,
   onTextChange,
   onTokenSelect,
+  onDictionaryClose,
   onApplySuggestion,
   activeCommand
 }: {
@@ -255,10 +263,16 @@ function EditorSurface({
   selectedToken?: Token;
   suggestions: RhymeSuggestion[];
   onTextChange: (text: string) => void;
-  onTokenSelect: (id: string) => void;
+  onTokenSelect: (id: string | null) => void;
+  onDictionaryClose: () => void;
   onApplySuggestion: (word: string, mode: "insert" | "replace") => void;
   activeCommand: string;
 }) {
+  function selectTokenAtCaret(selectionStart: number) {
+    const token = findTokenAtTextPosition(text, analysis, selectionStart);
+    onTokenSelect(token?.id ?? null);
+  }
+
   return (
     <section className="editor-panel" aria-label="Rhyme editor">
       <div className="editor-header">
@@ -280,7 +294,6 @@ function EditorSurface({
               line={line}
               groups={analysis.groups}
               selectedTokenId={selectedTokenId}
-              onTokenSelect={onTokenSelect}
               hideHighlights={activeCommand === "reset"}
             />
           ))}
@@ -290,6 +303,16 @@ function EditorSurface({
           className="editor-input"
           value={text}
           onChange={(event) => onTextChange(event.target.value)}
+          onClick={(event) => selectTokenAtCaret(event.currentTarget.selectionStart)}
+          onKeyUp={(event) => {
+            if (event.key === "Escape") {
+              onDictionaryClose();
+              return;
+            }
+            if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+            selectTokenAtCaret(event.currentTarget.selectionStart);
+          }}
+          onSelect={(event) => selectTokenAtCaret(event.currentTarget.selectionStart)}
           spellCheck="false"
         />
         {selectedToken ? (
@@ -297,6 +320,7 @@ function EditorSurface({
             token={selectedToken}
             suggestions={suggestions}
             onApply={onApplySuggestion}
+            onClose={onDictionaryClose}
           />
         ) : null}
       </div>
@@ -309,42 +333,38 @@ function LineRow({
   line,
   groups,
   selectedTokenId,
-  onTokenSelect,
   hideHighlights
 }: {
   lineNumber: number;
   line: ReturnType<typeof analyzeDocument>["lines"][number];
   groups: ReturnType<typeof analyzeDocument>["groups"];
   selectedTokenId?: string;
-  onTokenSelect: (id: string) => void;
   hideHighlights: boolean;
 }) {
+  const segments = buildLineSegments(line.raw, line.tokens);
+
   return (
     <div className="line-row">
       <span className="line-number">{lineNumber}</span>
       <div className="line-words">
-        {line.tokens.length ? (
-          line.tokens.map((token) => {
-            const group = groups.find((candidate) => candidate.tokenIds.includes(token.id));
+        {segments.length ? (
+          segments.map((segment, index) => {
+            if (segment.kind === "text") {
+              return <span key={`text-${index}`}>{segment.text}</span>;
+            }
+            const group = groups.find((candidate) => candidate.tokenIds.includes(segment.token.id));
             const color = group && !hideHighlights ? groupColors[group.colorIndex % groupColors.length] : "transparent";
             return (
-              <button
-                key={token.id}
-                type="button"
-                className={token.id === selectedTokenId ? "word-chip selected" : "word-chip"}
+              <span
+                key={segment.token.id}
+                className={segment.token.id === selectedTokenId ? "word-chip selected" : "word-chip"}
                 style={{ "--group-color": color } as React.CSSProperties}
-                onPointerDown={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  onTokenSelect(token.id);
-                }}
-                onClick={() => onTokenSelect(token.id)}
-                title={`${token.raw}: ${token.syllables} syllable${token.syllables === 1 ? "" : "s"}`}
+                title={`${segment.token.raw}: ${segment.token.syllables} syllable${segment.token.syllables === 1 ? "" : "s"}`}
               >
-                <span className="word-count">{token.syllables}</span>
-                <span className="word-text">{token.raw}</span>
-                <span className="ending-mark">{token.ending}</span>
-              </button>
+                <span className="word-count">{segment.token.syllables}</span>
+                <span className="word-text">{segment.token.raw}</span>
+                <span className="ending-mark">{segment.token.ending}</span>
+              </span>
             );
           })
         ) : (
@@ -359,11 +379,13 @@ function LineRow({
 function InlineDictionaryPopover({
   token,
   suggestions,
-  onApply
+  onApply,
+  onClose
 }: {
   token: Token;
   suggestions: RhymeSuggestion[];
   onApply: (word: string, mode: "insert" | "replace") => void;
+  onClose: () => void;
 }) {
   const top = 86 + token.lineIndex * 58;
   const grouped = {
@@ -385,7 +407,9 @@ function InlineDictionaryPopover({
           <strong>{token.raw}</strong>
           <small>{token.syllables} syllable{token.syllables === 1 ? "" : "s"}</small>
         </div>
-        <BookOpen size={18} />
+        <button type="button" className="popover-close" aria-label="Close dictionary" onClick={onClose}>
+          <X size={17} />
+        </button>
       </div>
       {(["perfect", "slant", "multi"] as const).map((type) => (
         <section className="popover-group" key={type}>
@@ -410,6 +434,51 @@ function InlineDictionaryPopover({
       ))}
     </div>
   );
+}
+
+type LineSegment =
+  | { kind: "text"; text: string }
+  | { kind: "token"; token: Token };
+
+function buildLineSegments(raw: string, tokens: Token[]): LineSegment[] {
+  if (!raw) return [];
+  const segments: LineSegment[] = [];
+  let cursor = 0;
+  for (const token of tokens) {
+    if (token.start > cursor) {
+      segments.push({ kind: "text", text: raw.slice(cursor, token.start) });
+    }
+    segments.push({ kind: "token", token });
+    cursor = token.end;
+  }
+  if (cursor < raw.length) {
+    segments.push({ kind: "text", text: raw.slice(cursor) });
+  }
+  return segments;
+}
+
+function findTokenAtTextPosition(
+  text: string,
+  analysis: ReturnType<typeof analyzeDocument>,
+  position: number
+): Token | undefined {
+  let lineStart = 0;
+  for (const line of analysis.lines) {
+    const lineEnd = lineStart + line.raw.length;
+    if (position >= lineStart && position <= lineEnd) {
+      const column = position - lineStart;
+      return line.tokens.find((token) => column >= token.start && column <= token.end);
+    }
+    lineStart = lineEnd + 1;
+  }
+
+  if (position === text.length) {
+    const lastLine = analysis.lines[analysis.lines.length - 1];
+    const lastToken = lastLine?.tokens[lastLine.tokens.length - 1];
+    if (lastToken && position > 0 && /[A-Za-z']/.test(text[position - 1] ?? "")) return lastToken;
+  }
+
+  return undefined;
 }
 
 function DictionaryPanel({

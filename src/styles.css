@@ -255,10 +255,11 @@ button {
 
 .analysis-layer {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   display: grid;
   gap: 0;
   padding: 20px 22px 140px;
+  color: transparent;
   pointer-events: none;
 }
 
@@ -289,28 +290,27 @@ button {
 
 .line-words {
   min-width: 0;
-  display: flex;
-  align-items: end;
-  gap: 8px;
-  flex-wrap: wrap;
+  display: block;
   padding-top: 14px;
+  font-size: 18px;
+  line-height: 1.15;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .word-chip {
   --group-color: transparent;
   position: relative;
-  display: inline-grid;
-  gap: 1px;
+  display: inline-block;
   min-width: 30px;
   border: 0;
   border-radius: 6px;
-  padding: 10px 3px 3px;
-  color: var(--ink);
-  background: linear-gradient(to bottom, transparent 0 26%, var(--group-color) 26% 100%);
-  pointer-events: auto;
+  padding: 0 2px;
+  color: transparent;
+  background: var(--group-color);
+  pointer-events: none;
 }
 
-.word-chip:hover,
 .word-chip.selected {
   outline: 2px solid rgba(40, 95, 116, 0.32);
   outline-offset: 2px;
@@ -332,16 +332,21 @@ button {
 }
 
 .word-text {
-  font-size: 18px;
+  color: transparent;
   line-height: 1.15;
 }
 
 .ending-mark {
-  justify-self: center;
+  position: absolute;
+  left: 50%;
+  bottom: -17px;
+  transform: translateX(-50%);
   border-top: 2px solid rgba(23, 74, 95, 0.45);
   padding-top: 1px;
   font-size: 10px;
+  line-height: 1;
   color: rgba(24, 32, 42, 0.62);
+  white-space: nowrap;
 }
 
 .empty-line {
@@ -352,14 +357,14 @@ button {
 .editor-input {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   min-height: 100%;
   resize: none;
   padding: 36px 98px 140px 66px;
   border: 0;
   outline: 0;
-  color: transparent;
+  color: var(--ink);
   caret-color: var(--accent);
   background: transparent;
   font-size: 18px;
@@ -412,6 +417,23 @@ button {
 .popover-heading small,
 .popover-group small {
   color: var(--muted);
+}
+
+.popover-close {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #cdd6df;
+  border-radius: 7px;
+  color: #344555;
+  background: #f7f9fb;
+}
+
+.popover-close:hover {
+  border-color: rgba(40, 95, 116, 0.35);
+  background: #e8f2f5;
 }
 
 .popover-group {
@@ -553,6 +575,11 @@ button {
     padding-right: 58px;
   }
 
+  .analysis-layer {
+    padding-left: 16px;
+    padding-right: 14px;
+  }
+
   .line-row {
     grid-template-columns: 24px minmax(0, 1fr) 34px;
     gap: 6px;
@@ -563,15 +590,40 @@ button {
   }
 
   .dictionary-panel {
-    display: block;
+    display: none;
   }
 
   .dictionary-popover {
     position: fixed;
-    inset: auto 14px 76px;
+    inset: auto 12px 52px;
     width: auto;
-    max-height: 44vh;
+    max-height: min(34vh, 280px);
     overflow: auto;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .popover-heading {
+    position: sticky;
+    top: -10px;
+    z-index: 1;
+    align-items: center;
+    padding: 0 0 8px;
+    background: rgba(255, 255, 255, 0.98);
+  }
+
+  .popover-heading strong {
+    font-size: 18px;
+  }
+
+  .popover-group {
+    gap: 6px;
+    padding-top: 8px;
+  }
+
+  .popover-group button {
+    padding: 5px 8px;
+    font-size: 12px;
   }
 
   .status-bar {

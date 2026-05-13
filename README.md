@@ -13,6 +13,7 @@ Write lines, inspect cadence, find rhymes, and see internal rhyme schemes highli
 - Total syllable count shown at the end of each line.
 - Color-coded rhyme families for end rhymes, internal rhymes, similar endings, and multisyllabic rhyme patterns.
 - Click a word to open a local rhyming dictionary.
+- On mobile and Android, the clicked-word dictionary opens as a compact closable sheet so it does not trap the writing area.
 - Suggestions grouped by `Perfect`, `Slant`, and `Multi`.
 - `Insert` and `Replace` actions for suggestions.
 - Menu bar with rhyming prompts: `Find End Rhymes`, `Find Internal Rhymes`, `Suggest Multis`, `Tighten Syllables`, `Continue Scheme`, and `Reset Highlights`.
@@ -95,7 +96,16 @@ artifacts/rhymepad-debug.apk
 
 When running as an Android app, documents are saved in the app's native SQLite database. The Android app works offline and does not require the Docker server.
 
+The Android app uses the same mobile editor as the web app. Tap inside a word to open the compact rhyming dictionary sheet, use the close button to return to writing, and continue typing with the native caret aligned to the visible text.
+
 This project expects Android command-line tools under `.android-sdk/` for local CLI builds. If JDK 21 is installed with Homebrew at `/opt/homebrew/opt/openjdk@21`, the build script will use it automatically.
+
+## Recent Fixes
+
+- Fixed the mobile and Android dictionary sheet so it can be closed and uses less screen space.
+- Fixed editor typing alignment by keeping the textarea as the visible caret layer while rhyme highlights and syllable counts render behind it.
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 ## Test Verse Used For Screenshots
 

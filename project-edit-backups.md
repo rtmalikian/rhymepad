@@ -54,3 +54,12 @@
 | 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.before-javahome.md.bak | Logged APK build script JDK selection fix. |
 | 2026-05-13 | src/data/pronunciations.ts | Not applicable | Removed stale untracked starter dictionary after switching to the CMUdict package. |
 | 2026-05-13 | project-edit-backups.md | backups/20260513-android-apk/project-edit-backups.before-stale-dictionary-removal.md.bak | Logged stale starter dictionary cleanup. |
+| 2026-05-13 | src/App.tsx | backups/20260513-mobile-dictionary-fix/App.tsx.bak | Reworked word selection to use textarea caret position and added dictionary close handling. |
+| 2026-05-13 | src/styles.css | backups/20260513-mobile-dictionary-fix/styles.css.bak | Made the textarea the visible caret layer and styled the mobile dictionary as a compact closable sheet. |
+| 2026-05-13 | tests/rhymepad.spec.ts | backups/20260513-mobile-dictionary-fix/rhymepad.spec.ts.bak | Added mobile dictionary close coverage and updated selection tests for the textarea-driven editor. |
+| 2026-05-13 | tests/readme-screenshots.spec.ts | backups/20260513-mobile-dictionary-fix/readme-screenshots.spec.ts.bak | Updated README screenshot capture to select words through the textarea model. |
+| 2026-05-13 | README.md | backups/20260513-mobile-dictionary-fix/README.md.bak | Documented the mobile and Android dictionary close/caret alignment fix. |
+| 2026-05-13 | CHANGELOG.md | Not applicable | Added release notes for the mobile and Android dictionary/caret fix. |
+| 2026-05-13 | docs/screenshots/rhymepad-desktop.png | backups/20260513-mobile-dictionary-fix/rhymepad-desktop.png.bak | Regenerated README desktop screenshot after the editor overlay and dictionary fix. |
+| 2026-05-13 | docs/screenshots/rhymepad-mobile.png | backups/20260513-mobile-dictionary-fix/rhymepad-mobile.png.bak | Regenerated README mobile screenshot showing the compact dictionary sheet. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-mobile-dictionary-fix/project-edit-backups.md.bak | Logged mobile dictionary and editor caret fix edits. |

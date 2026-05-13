@@ -98,12 +98,15 @@ When running as an Android app, documents are saved in the app's native SQLite d
 
 The Android app uses the same mobile editor as the web app. Tap inside a word to open the compact rhyming dictionary sheet, use the close button to return to writing, and continue typing with the native caret aligned to the visible text.
 
+Android persistence is write-through: notes are mirrored to local app storage immediately, saved to native SQLite, merged by latest edit time on startup, and flushed again when the app is hidden or closed.
+
 This project expects Android command-line tools under `.android-sdk/` for local CLI builds. If JDK 21 is installed with Homebrew at `/opt/homebrew/opt/openjdk@21`, the build script will use it automatically.
 
 ## Recent Fixes
 
 - Fixed the mobile and Android dictionary sheet so it can be closed and uses less screen space.
 - Fixed editor typing alignment by keeping the textarea as the visible caret layer while rhyme highlights and syllable counts render behind it.
+- Fixed Android note restore logic so newer local edits are not overwritten by stale native SQLite rows after reopening the app.
 
 See [CHANGELOG.md](CHANGELOG.md) for release notes.
 

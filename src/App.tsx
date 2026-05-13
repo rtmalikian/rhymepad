@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BookOpen,
   Download,
@@ -50,6 +50,7 @@ export function App() {
   const [activeCommand, setActiveCommand] = useState("end");
   const [persistenceStatus, setPersistenceStatus] = useState<"loading" | "api" | "sqlite" | "local">("loading");
   const [hasHydrated, setHasHydrated] = useState(false);
+  const latestPersistedState = useRef({ documents, activeDocumentId });
   const activeDocument = documents.find((document) => document.id === activeDocumentId) ?? documents[0];
   const analysis = useMemo(() => analyzeDocument(activeDocument?.text ?? ""), [activeDocument?.text]);
   const selectedToken = analysis.tokens.find((token) => token.id === selectedTokenId);
@@ -73,9 +74,31 @@ export function App() {
   }, []);
 
   useEffect(() => {
+    latestPersistedState.current = { documents, activeDocumentId };
+  }, [activeDocumentId, documents]);
+
+  useEffect(() => {
     if (!hasHydrated) return;
     persistState(documents, activeDocumentId).then((source) => setPersistenceStatus(source));
   }, [activeDocumentId, documents, hasHydrated]);
+
+  useEffect(() => {
+    function flushLatestState() {
+      const latest = latestPersistedState.current;
+      void persistState(latest.documents, latest.activeDocumentId).then((source) => setPersistenceStatus(source));
+    }
+
+    function flushWhenHidden() {
+      if (document.visibilityState === "hidden") flushLatestState();
+    }
+
+    window.addEventListener("pagehide", flushLatestState);
+    document.addEventListener("visibilitychange", flushWhenHidden);
+    return () => {
+      window.removeEventListener("pagehide", flushLatestState);
+      document.removeEventListener("visibilitychange", flushWhenHidden);
+    };
+  }, []);
 
   useEffect(() => {
     if (selectedTokenId && !selectedToken) setSelectedTokenId(null);

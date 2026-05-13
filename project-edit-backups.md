@@ -63,3 +63,9 @@
 | 2026-05-13 | docs/screenshots/rhymepad-desktop.png | backups/20260513-mobile-dictionary-fix/rhymepad-desktop.png.bak | Regenerated README desktop screenshot after the editor overlay and dictionary fix. |
 | 2026-05-13 | docs/screenshots/rhymepad-mobile.png | backups/20260513-mobile-dictionary-fix/rhymepad-mobile.png.bak | Regenerated README mobile screenshot showing the compact dictionary sheet. |
 | 2026-05-13 | project-edit-backups.md | backups/20260513-mobile-dictionary-fix/project-edit-backups.md.bak | Logged mobile dictionary and editor caret fix edits. |
+| 2026-05-13 | src/lib/storage.ts | backups/20260513-android-persistence-fix/storage.ts.bak | Merged local and native SQLite notes by latest edit time, serialized native writes, and contained native SQLite failures. |
+| 2026-05-13 | src/App.tsx | backups/20260513-android-persistence-fix/App.tsx.bak | Added pagehide and visibility flushes so Android saves the latest note when the app is hidden or closed. |
+| 2026-05-13 | src/lib/storage.test.ts | Not applicable | Added unit coverage for local/native note merge behavior. |
+| 2026-05-13 | README.md | backups/20260513-android-persistence-fix/README.md.bak | Documented Android write-through persistence and the reopen data-loss fix. |
+| 2026-05-13 | CHANGELOG.md | backups/20260513-android-persistence-fix/CHANGELOG.md.bak | Added release notes for the Android persistence fix. |
+| 2026-05-13 | project-edit-backups.md | backups/20260513-android-persistence-fix/project-edit-backups.md.bak | Logged Android persistence fix edits. |

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Updated the locked `qs` transitive dependency to address a moderate denial-of-service advisory reported by `npm audit`.
+
 ## 2026-05-13
 
 - Fixed Android note persistence after app close/reopen by merging local and native SQLite documents by latest edit time, serializing native saves, and flushing on app hide/pagehide.

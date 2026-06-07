@@ -14,7 +14,8 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 COPY --from=build /app/dist ./dist
 COPY server ./server
-RUN mkdir -p /data
+RUN mkdir -p /data && chown node:node /data
 VOLUME ["/data"]
+USER node
 EXPOSE 8080
 CMD ["npm", "start"]

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-06-07
+
+- Added security headers to the Express server: Content-Security-Policy, X-Content-Type-Options (nosniff), X-Frame-Options (SAMEORIGIN), Referrer-Policy, and X-XSS-Protection.
+- Added global error handler to prevent stack trace leakage in production error responses.
+- Changed Docker container to run as non-root `node` user for improved container security.
+
 ## 2026-05-13
 
 - Fixed Android note persistence after app close/reopen by merging local and native SQLite documents by latest edit time, serializing native saves, and flushing on app hide/pagehide.
